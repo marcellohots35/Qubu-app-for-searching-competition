@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qubu - Sign-up</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="login.html">Qubu</a>
+        </div>
+
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="login.html">Info Lomba</a></li>
+                <li><a href="login.html">Cari Partner</a></li>
+                <li><a href="search-dospem.html">Info Pembimbing</a></li>
+            </ul>
+
+            <div class="nav-auth">
+                <a href="sign-up.html" class="nav-signup">Sign up</a>
+                <a href="login.html" class="nav-login-btn">Log in</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="login-container">
+        <header class="login-header">
+            <h1>Sign-up</h1>
+        </header>
+
+        <form action="proses-register.php" method="POST" class="login-form">
+          
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    id="fullname" 
+                    name="fullname" 
+                    placeholder="Full name" 
+                    autocomplete="name"
+                    required
+                >
+            </div>
+
+            
+            <div class="form-group">
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Email address" 
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <select id="prodi" name="prodi" class="form-select" required>
+                    <option value="" disabled selected>Pilih Program Studi</option>
+                    <option value="Informatika">Informatika</option>
+                    <option value="Sistem Informasi">Sistem Informasi</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <select id="minat" name="minat" class="form-select" required>
+                    <option value="" disabled selected>Pilih Minat Bidang</option>
+                    <option value="UI/UX Design">UI/UX Design</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Mobile Development">Mobile Development</option>
+                    <option value="Artificial Intelligence">Artificial Intelligence (AI)</option>
+                    <option value="Cyber Security">Cyber Security</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="Karya Tulis Ilmiah">Karya Tulis Ilmiah (KTI)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Password (min. 8 characters)" 
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+
+           
+            <div class="form-group">
+                <input 
+                    type="password" 
+                    id="confirm_password" 
+                    name="confirm_password" 
+                    placeholder="Confirm password" 
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn-dark">Create Account</button>
+            <a href="login.html" class="btn-dark btn-forgot">Already have an account? Log-in</a>
+        </form>
+    </div>
+
+ </body>
+</html>

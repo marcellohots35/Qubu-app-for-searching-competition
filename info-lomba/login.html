@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qubu - Log-in</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+   
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="login.html">Qubu</a>
+        </div>
+
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="login.html">Info Lomba</a></li>
+                <li><a href="login.html">Cari Partner</a></li>
+                <li><a href="search-dospem.html">Info Pembimbing</a></li>
+            </ul>
+
+            <div class="nav-auth">
+                <a href="sign-up.html" class="nav-signup">Sign up</a>
+                <a href="login.html" class="nav-login-btn">Log in</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="login-container">
+        <header class="login-header">
+            <h1>Log-in</h1>
+        </header>
+
+        <form action="proses-login.php" method="POST" class="login-form">
+          
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Email or phone number" 
+                    required
+                >
+            </div>
+
+            
+            <div class="form-group">
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Password" 
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn-dark">Log-in</button>
+            <a href="sign-up.html" class="btn-dark">Sign-up</a>
+            <a href="#" class="btn-dark btn-forgot">Forgot password</a>
+        </form>
+    </div>
+
+    
+    <section class="lomba-section">
+        <div class="lomba-header">
+            <h2>Info Lomba Terdekat</h2>
+            <p>Jelajahi kompetisi terkini dan temukan partner tim terbaikmu</p>
+        </div>
+
+        <div class="lomba-grid">
+        
+            <div class="lomba-card" onclick="cekLogin('Gemastik XVII - Pagelaran TIK')">
+                <div class="lomba-img-box">
+                    <img src="images/gemastik.jpg" alt="Gemastik XVII - Pagelaran TIK" class="lomba-img">
+                </div>
+                <span class="lomba-badge">UI/UX & Web</span>
+                <h3>Gemastik XVII - Pagelaran TIK</h3>
+                <p class="lomba-desc">Kompetisi pengembangan perangkat lunak dan desain UI/UX tingkat mahasiswa nasional.</p>
+                <div class="lomba-info">
+                    <span>📅 Deadline: 25 Okt</span>
+                    <span>👥 Tim (3 org)</span>
+                </div>
+                <button type="button" class="btn-lomba">Lihat Detail & Cari Tim</button>
+            </div>
+
+            
+            <div class="lomba-card" onclick="cekLogin('AI Hackathon 2026')">
+                <img src="images/aifest.jpg" alt="AI Hackathon 2026" class="lomba-img">
+                <span class="lomba-badge">AI & Software</span>
+                <h3>National AI Hackathon 2026</h3>
+                <p class="lomba-desc">Bangun solusi inovatif berbasis kecerdasan buatan dalam kompetisi intensif 48 jam.</p>
+                <div class="lomba-info">
+                    <span>📅 Deadline: 10 Nov</span>
+                    <span>👥 Tim (2-4 org)</span>
+                </div>
+                <button type="button" class="btn-lomba">Lihat Detail & Cari Tim</button>
+            </div>
+
+            
+            <div class="lomba-card" onclick="cekLogin('IT CAS - IT Competition AMIKOM SURAKARTA')">
+                <img src="images/itcompetitionamikom.jpg" alt="IT CAS - IT Competition AMIKOM SURAKARTA" class="lomba-img">
+                <span class="lomba-badge">Karya Tulis</span>
+                <h3>IT CAS - IT Competition AMIKOM SURAKARTA</h3>
+                <p class="lomba-desc">Lomba karya tulis ilmiah inovasi teknologi tepat guna untuk kemajuan industri.</p>
+                <div class="lomba-info">
+                    <span>📅 Deadline: 30 Nov</span>
+                    <span>👥 Tim (2-3 org)</span>
+                </div>
+                <button type="button" class="btn-lomba">Lihat Detail & Cari Tim</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function cekLogin(namaLomba) {
+            alert("⚠️ Akses Terbatas!\n\nSilakan login ke akun Anda terlebih dahulu untuk melihat detail kompetisi '" + namaLomba + "' dan mencari partner tim.");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById("username").focus();
+        }
+    </script>
+</body>
+</html>
