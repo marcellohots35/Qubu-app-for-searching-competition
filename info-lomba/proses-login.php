@@ -1,40 +1,51 @@
 <?php
-session_start();
 require_once 'koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $identifier = trim($_POST['username'] ?? ''); // Dapat berupa email atau nomor telepon/WA
+    $identifier = trim($_POST['username'] ?? '');
     $password   = $_POST['password'] ?? '';
 
     if (empty($identifier) || empty($password)) {
-        echo "<script>alert('Harap isi email/nomor telepon dan password!'); history.back();</script>";
+        set_flash('error', 'Harap isi email/nomor telepon dan password!');
+        header("Location: login.php");
         exit;
     }
 
-    // Cari akun mahasiswa berdasarkan email atau no_wa
-    $stmt = $conn->prepare("SELECT id, nama, email, password FROM mahasiswa WHERE email = ? OR no_wa = ?");
+    $stmt = $conn->prepare("SELECT id, nama, email, password, role FROM mahasiswa WHERE email = ? OR no_wa = ?");
     $stmt->bind_param("ss", $identifier, $identifier);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
-        // Cek kecocokan password dengan hash yang ada di database
+
         if (password_verify($password, $row['password'])) {
-            // Simpan informasi user ke session
+
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['nama']    = $row['nama'];
             $_SESSION['email']   = $row['email'];
+            $_SESSION['role']    = $row['role'];
 
-            echo "<script>alert('Login berhasil! Selamat datang, " . addslashes(htmlspecialchars($row['nama'])) . ".'); window.location.href = 'search-dospem.html';</script>";
+            set_flash('success', 'Selamat datang kembali, ' . htmlspecialchars($row['nama']) . '!');
+
+            if ($row['role'] === 'admin') {
+                header("Location: admin-lomba.php");
+            } else {
+                header("Location: index.php");
+            }
             $stmt->close();
             $conn->close();
             exit;
         }
     }
 
-    // Jika username atau password tidak cocok
-    echo "<script>alert('Email/Nomor telepon atau password salah!'); history.back();</script>";
+    set_flash('error', 'Email/Nomor telepon atau password yang Anda masukkan salah!');
+    header("Location: login.php");
     $stmt->close();
     $conn->close();
+    exit;
+} else {
+    header("Location: login.php");
+    exit;
 }
 ?>
+

@@ -12,12 +12,12 @@
 
 <header class="navbar">
   <div class="container">
-    <a href="search-dospem.html" class="brand">Dos<span>pem</span></a>
+    <a href="index.php" class="brand">Qubu<span>.</span></a>
     <nav class="nav-right" aria-label="Navigasi utama">
-      <a href="login.html" class="nav-link">Info Lomba</a>
+      <a href="index.php" class="nav-link">Info Lomba</a>
       <a href="search-dospem.html" class="nav-link" aria-current="page">Pembimbing</a>
-      <a href="login.html" class="nav-link">Partner</a>
-      <div class="avatar-profile" role="img" aria-label="Foto profil"></div>
+      <a href="cari-partner.php" class="nav-link">Cari Partner</a>
+      <a href="profile.php" class="avatar-profile" title="Profil Saya" style="display:block;"></a>
     </nav>
   </div>
 </header>
@@ -94,7 +94,6 @@
 </main>
 
 <script>
-  // Toggle "Terbaru" / "Paling Cocok"
   document.querySelectorAll('.segmented button').forEach(function (btn) {
     btn.addEventListener('click', function () {
       document.querySelectorAll('.segmented button').forEach(function (b) {
@@ -103,7 +102,6 @@
     });
   });
 
-  // Pencarian sederhana di kartu yang tampil
   document.getElementById('cari').addEventListener('input', function (e) {
     var q = e.target.value.toLowerCase();
     document.querySelectorAll('#daftar .card').forEach(function (card) {

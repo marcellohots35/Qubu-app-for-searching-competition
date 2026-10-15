@@ -4,37 +4,38 @@ require_once 'koneksi.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama             = trim($_POST['fullname'] ?? '');
     $email            = trim($_POST['email'] ?? '');
+    $no_wa            = trim($_POST['no_wa'] ?? '');
     $prodi_nama       = trim($_POST['prodi'] ?? '');
     $minat_nama       = trim($_POST['minat'] ?? '');
+    $skills           = trim($_POST['skills'] ?? '');
     $password         = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
-    // Validasi input kosong
     if (empty($nama) || empty($email) || empty($password)) {
-        echo "<script>alert('Harap lengkapi semua field yang wajib diisi!'); history.back();</script>";
+        set_flash('error', 'Harap lengkapi semua field yang wajib diisi!');
+        header("Location: sign-up.php");
         exit;
     }
 
-    // Validasi kesamaan password
     if ($password !== $confirm_password) {
-        echo "<script>alert('Password dan konfirmasi password tidak cocok!'); history.back();</script>";
+        set_flash('error', 'Password dan konfirmasi password tidak cocok!');
+        header("Location: sign-up.php");
         exit;
     }
 
-    // Cek apakah email sudah terdaftar
     $stmt_cek = $conn->prepare("SELECT id FROM mahasiswa WHERE email = ?");
     $stmt_cek->bind_param("s", $email);
     $stmt_cek->execute();
     $stmt_cek->store_result();
 
     if ($stmt_cek->num_rows > 0) {
-        echo "<script>alert('Email sudah terdaftar. Silakan gunakan email lain atau login!'); history.back();</script>";
+        set_flash('error', 'Email sudah terdaftar. Silakan gunakan email lain atau login!');
         $stmt_cek->close();
+        header("Location: sign-up.php");
         exit;
     }
     $stmt_cek->close();
 
-    // Dapatkan atau simpan ID prodi
     $prodi_id = null;
     if (!empty($prodi_nama)) {
         $stmt_p = $conn->prepare("SELECT id FROM prodi WHERE nama_prodi = ?");
@@ -53,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_p->close();
     }
 
-    // Dapatkan atau simpan ID bidang minat
     $bidang_id = null;
     if (!empty($minat_nama)) {
         $stmt_m = $conn->prepare("SELECT id FROM bidang_minat WHERE nama_bidang = ?");
@@ -72,20 +72,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_m->close();
     }
 
-    // Hash password untuk keamanan
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $role = 'mahasiswa';
 
-    // Simpan data mahasiswa
-    $stmt_insert = $conn->prepare("INSERT INTO mahasiswa (nama, email, password, prodi_id, bidang_id) VALUES (?, ?, ?, ?, ?)");
-    $stmt_insert->bind_param("sssii", $nama, $email, $hashed_password, $prodi_id, $bidang_id);
+    $stmt_insert = $conn->prepare("INSERT INTO mahasiswa (nama, email, password, no_wa, prodi_id, bidang_id, role, skills) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt_insert->bind_param("ssssiiss", $nama, $email, $hashed_password, $no_wa, $prodi_id, $bidang_id, $role, $skills);
 
     if ($stmt_insert->execute()) {
-        echo "<script>alert('Pendaftaran berhasil! Silakan log in.'); window.location.href = 'login.html';</script>";
+        $new_user_id = $conn->insert_id;
+
+        tambah_notifikasi($conn, $new_user_id, "Selamat Datang di Qubu!", "Akun Anda berhasil dibuat. Lengkapi prestasi dan temukan partner tim lomba terbaikmu!");
+        set_flash('success', 'Pendaftaran akun berhasil! Silakan login untuk memulai.');
+        header("Location: login.php");
     } else {
-        echo "<script>alert('Terjadi kesalahan saat mendaftar: " . addslashes($stmt_insert->error) . "'); history.back();</script>";
+        set_flash('error', 'Terjadi kesalahan saat mendaftar: ' . $stmt_insert->error);
+        header("Location: sign-up.php");
     }
 
     $stmt_insert->close();
     $conn->close();
+} else {
+    header("Location: sign-up.php");
+    exit;
 }
 ?>
+
